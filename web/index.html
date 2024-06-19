@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title></title>
+    <style>
+      #box {
+        width: 800px;
+        height: 500px;
+        border: 1px solid #000;
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box">
+      <form action="">
+        汽车名字
+        <input type="text" name="carName" id="carName" value="法拉利" /> 价格
+        <input type="text" name="carPrice" id="carPrice" value="888888" />
+        颜色：<input type="text" name="carColor" id="carColor" value="红色" />
+      </form>
+      <button id="btn">点击发出请求</button>
+    </div>
+    <script src="./node_modules/jquery/dist/jquery.js"></script>
+    <script>
+      $(function () {
+        $('#btn').click(function () {
+          //   let data = new FormData($('form')[0])
+          $.ajax({
+            url: 'http://localhost:3000/api/car',
+            type: 'POST',
+            data: {
+              carName: $('#carName').val(),
+              carPrice: $('#carPrice').val(),
+              carColor: $('#carColor').val(),
+            },
+            dataType: 'json',
+            // headers: {
+            //   'Content-Type': 'application/json',
+            // },
+            // contentType: false,
+            // processData: false,
+            success: function (data) {
+              console.log(data)
+            },
+          })
+        })
+      })
+      //   new FormData()
+      //   name=zs&age=18
+      //   "{name: 'zs', age: 18}"
+    </script>
+  </body>
+</html>
