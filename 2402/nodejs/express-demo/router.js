@@ -2,9 +2,19 @@ const express = require('express')
 const router = express.Router()
 const file = require('./file')
 
+//路由级中间件
+const mylog = function (req, res, next) {
+  if (req.query.name == 'zs') {
+    next()
+  } else {
+    throw new Error('你没有权限访问')
+  }
+}
+
 //获取汽车数据
-router.get('/car', async (req, res) => {
+router.get('/car', mylog, async (req, res) => {
   let carData = await file.getFileData('./data.json')
+  console.log(req.nowTime)
   res.json({
     code: 200,
     message: 'success',
