@@ -16,11 +16,13 @@
   </head>
   <body>
     <div id="box">
-      <form action="">
+      <form action="http://localhost:3001/api/book" method="POST">
         汽车名字
-        <input type="text" name="carName" id="carName" value="法拉利" /> 价格
-        <input type="text" name="carPrice" id="carPrice" value="888888" />
-        颜色：<input type="text" name="carColor" id="carColor" value="红色" />
+        <input type="text" name="book_name" id="carName" value="法拉利" />
+        <!-- 价格<input type="text" name="carPrice" id="carPrice" value="888888" /> -->
+        <!-- 颜色：<input type="text" name="carColor" id="carColor" value="红色" /> -->
+
+        封面：<input type="file" multiple name="bookImg" id="bookImg" />
       </form>
       <button id="btn">点击发出请求</button>
     </div>
@@ -28,16 +30,15 @@
     <script>
       $(function () {
         $('#btn').click(function () {
-          //   let data = new FormData($('form')[0])
+          let data = new FormData($('form')[0])
+          console.log(data.get('bookImg'))
           $.ajax({
-            url: 'http://localhost:3000/api/car',
+            url: 'http://localhost:3001/api/book',
             type: 'POST',
-            data: {
-              carName: $('#carName').val(),
-              carPrice: $('#carPrice').val(),
-              carColor: $('#carColor').val(),
-            },
-            dataType: 'json',
+            contentType: false,
+            processData: false,
+            data: data,
+            dataType: 'json', //www-form-urlencoded  json   username=zs&age=18  xmlhttprequest post xhr.send(username=zs&age=18)
             // headers: {
             //   'Content-Type': 'application/json',
             // },

@@ -1,52 +1,34 @@
-const fs = require('fs')
-// console.log('开始写入文件')
-// fs.writeFileSync('abc.txt', '张三李四')
-// console.log('文件写入完成')
-// console.log('开始写入文件')
-// fs.writeFile('abc.txt', '张三李四\n', { flag: 'a' }, function (err) {
-//   if (err) {
-//     console.log('说明有错误')
-//   }
-// })
-// console.log('文件写入结束')
-// console.log(__dirname)
-// // 1. 创建文件流
-// const ws = fs.createWriteStream('abc.txt', { flags: 'r+', start: 1 })
-// // 2. 监听文件流的打开和关闭
-// ws.on('open', function () {
-//   console.log('文件打开了')
+const express = require('express')
+const app = express()
+const parser = require('body-parser')
+const router = require('./router')
+const cors = require('cors')
+app.use(parser.urlencoded({ extended: false }))
+app.use(cors())
+// app.use(function (req, res, next) {
+//   res.header('Access-Control-Allow-Origin', '*')
+//   res.header(
+//     'Access-Control-Allow-Methods',
+//     'PUT,POST,GET,DELETE,OPTIONS,HEAD,PATCH'
+//   )
+//   res.header('Access-Control-Allow-Headers', 'Content-Type,token')
+//   res.header('Content-Type', 'application/json;charset=utf-8')
+//   // if (!false) {
+//   //   return res.send('你没有权限访问')
+//   // }
+//   next()
 // })
 
-// ws.on('close', function () {
-//   console.log('文件关闭了')
-// })
-// ws.write('666666666\n')
-// // for (let i = 0; i < 10; i++) {
-// //   ws.write(i + 1 + '张三\n')
-// // }
-// ws.end()
+app.use('/api', router)
 
-// const content = fs.readFileSync('abc.txt')
-// console.log(content.toString())
-// fs.readFile('abc.txt', function (err, data) {
-//   console.log(data.toString())
-// })
-// const path = require('path')
-// console.log(__dirname, __filename)
-// let filename = path.join(__dirname, 'abc.txt')
-// let filename = path.basename(__filename, '.js')
-// let extname = path.extname(__filename)
-// console.log(extname)
+app.use('/public', express.static('static'))
 
-// 1. 对文件的操作练习
-
-// 2.对文件数据的增删改查 熟练使用fs模块 readFile writeFile createWriteStream createReadStream
-// data.json  JSON.parse() JSON.stringify()
-// 封装对文件的操作
-// 写个函数  读取文件
-// 调用 需要穿什么参数  返回什么样的结果 要具备通用性 不是json文件如何处理 没有数据怎么处理，有数据怎么处理
-// 能不能批量操作文件['a.json', 'b.json', 'c.json'] return ['suceess','fail','success']
-const file = require('./file')
-file.readFile('abc.json').then((res) => {
-  console.log(res)
+app.use((err, req, res, next) => {
+  console.log('发生了错误！' + err.message)
+  res.send('Error：' + err.message)
 })
+app.listen('8080', () => {
+  console.log('服务已经启动')
+})
+
+//把昨天的作业 先做完  做完之后 使用express把昨天的作业合并过来
